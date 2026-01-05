@@ -1,0 +1,4 @@
+Accelerometer
+Gyroscope
+Sensor frequencies 50 Hz but depends from the device
+Export CSV verified
