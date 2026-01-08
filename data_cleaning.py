@@ -205,7 +205,7 @@ def plot_raw_vs_smooth(df_raw, df_smooth, title, cols=("x", "y", "z"),
     Plot raw vs smoothed for each axis (x,y,z) on separate lines.
     If max_seconds is not None, only the first max_seconds are shown.
     """
-    # Optional cropping to first max_seconds
+
     if max_seconds is not None:
         t0 = df_raw.index.min()
         t1 = t0 + np.timedelta64(int(max_seconds * 1000), 'ms')
@@ -237,7 +237,7 @@ def plot_magnitude_raw_vs_smooth(df_raw, df_smooth, title,
     """
     Plot magnitude (sqrt(x^2+y^2+z^2)) raw vs smoothed.
     """
-    # Optional cropping
+
     if max_seconds is not None:
         t0 = df_raw.index.min()
         t1 = t0 + np.timedelta64(int(max_seconds * 1000), 'ms')
@@ -311,3 +311,16 @@ print(acc_sit_smooth.isna().sum())
 print("\n Smoothing test completed.")
 print(f" Plots saved in: {OUT_DIR}")
 
+# Save cleaned data
+
+os.makedirs("data/clean", exist_ok=True)
+
+acc_sit_smooth.to_csv("data/clean/sitting_acc_clean.csv")
+acc_walk_smooth.to_csv("data/clean/walking_acc_clean.csv")
+acc_stairs_smooth.to_csv("data/clean/stairs_acc_clean.csv")
+
+gyro_sit_smooth.to_csv("data/clean/sitting_gyro_clean.csv")
+gyro_walk_smooth.to_csv("data/clean/walking_gyro_clean.csv")
+gyro_stairs_smooth.to_csv("data/clean/stairs_gyro_clean.csv")
+
+print("Cleaned data saved to data/processed/")
