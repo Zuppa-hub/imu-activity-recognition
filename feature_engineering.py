@@ -111,7 +111,7 @@ def compute_fft_spectrum(signal, fs=30.0):
     if N < 10:
         raise ValueError("Signal too short for FFT.")
 
-    # Hann window to reduce leakage
+    # window to reduce leakage
     w = np.hanning(N)
     xw = x * w
 
@@ -150,7 +150,7 @@ plt.xlabel("Frequency (Hz)")
 plt.ylabel("Amplitude")
 plt.title("FFT Spectrum – Walking (Accelerometer Magnitude)")
 plt.legend()
-plt.savefig('figures/feature_engineering/fft_walking_acc_magnitude.png')
+plt.savefig('figures/fft/fft_walking_acc_magnitude.png')
 plt.show()
 
 plt.figure(figsize=(12, 4))
@@ -160,6 +160,6 @@ plt.xlabel("Frequency (Hz)")
 plt.ylabel("Amplitude")
 plt.title("FFT Spectrum – Walking (Gyroscope Magnitude)")
 plt.legend()
-plt.savefig('figures/feature_engineering/fft_walking_gyro_magnitude.png')
+plt.savefig('figures/fft/fft_walking_gyro_magnitude.png')
 plt.show()
 

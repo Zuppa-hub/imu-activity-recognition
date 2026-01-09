@@ -35,7 +35,7 @@ plt.plot(acc_sit["seconds_elapsed"], acc_sit["y"], label="y")
 plt.plot(acc_sit["seconds_elapsed"], acc_sit["z"], label="z")
 plt.legend()
 plt.title("Raw accelerometer – sitting")
-plt.savefig("figures/acc_magnitude_sitting.png", dpi=300)
+plt.savefig("figures/raw_data_exploration/acc_magnitude_sitting.png", dpi=300)
 plt.show()
 
 # inspect raw walking data
@@ -67,7 +67,7 @@ plt.plot(acc_walk["seconds_elapsed"], acc_walk["magnitude"])
 plt.title("Acceleration magnitude – walking")
 plt.xlabel("Time [s]")
 plt.ylabel("Acceleration [m/s²]")
-plt.savefig("figures/acc_magnitude_walking.png", dpi=300)
+plt.savefig("figures/raw_data_exploration/acc_magnitude_walking.png", dpi=300)
 plt.show()
 
 
@@ -100,7 +100,7 @@ plt.plot(acc_stairs["seconds_elapsed"], acc_stairs["magnitude"])
 plt.title("Acceleration magnitude – stairs")
 plt.xlabel("Time [s]")
 plt.ylabel("Acceleration [m/s²]")
-plt.savefig("figures/acc_magnitude_stairs.png", dpi=300)
+plt.savefig("figures/raw_data_exploration/acc_magnitude_stairs.png", dpi=300)
 plt.show()
 
 # gyroscope analysis
@@ -113,5 +113,5 @@ for name, gyro in [("sitting", gyro_sit), ("walking", gyro_walk), ("stairs", gyr
     plt.title(f"Gyroscope magnitude – {name}")
     plt.xlabel("Time [s]")
     plt.ylabel("Angular velocity magnitude")
-    plt.savefig(f"figures/gyro_magnitude_{name}.png", dpi=300)
+    plt.savefig(f"figures/raw_data_exploration/gyro_magnitude_{name}.png", dpi=300)
     plt.show()
