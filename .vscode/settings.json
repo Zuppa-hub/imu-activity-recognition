@@ -1,8 +1,0 @@
-{
-    "chat.tools.terminal.autoApprove": {
-        "/^python3 << 'EOF'\nimport pandas as pd\n\n# Check stairs data\naccel = pd\\.read_csv\\('data/raw/stairs_pocket/stairs_accelerometer\\.csv'\\)\ngyro = pd\\.read_csv\\('data/raw/stairs_pocket/stairs_gyroscope\\.csv'\\)\n\nprint\\(\"Accelerometer columns:\", accel\\.columns\\.tolist\\(\\)\\)\nprint\\(\"Accelerometer shape:\", accel\\.shape\\)\nprint\\(\"Gyroscope columns:\", gyro\\.columns\\.tolist\\(\\)\\)\nprint\\(\"Gyroscope shape:\", gyro\\.shape\\)\n\nprint\\(\"\\\\nAccelerometer first rows:\"\\)\nprint\\(accel\\.head\\(3\\)\\)\nprint\\(\"\\\\nGyroscope first rows:\"\\)\nprint\\(gyro\\.head\\(3\\)\\)\nEOF\n$/": {
-            "approve": true,
-            "matchCommandLine": true
-        }
-    }
-}
