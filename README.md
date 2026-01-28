@@ -4,7 +4,7 @@
 
 A complete machine learning project for activity recognition using accelerometer and gyroscope data collected from a mobile phone.
 
-### 📊 Dataset
+### Dataset
 
 The dataset contains sensor data collected during three different activities:
 
@@ -22,9 +22,9 @@ time,seconds_elapsed,z,y,x
 1767620467350470700,0.143471,1.065960,0.185703,0.104458
 ```
 
-### 🔄 Pipeline
+### Pipeline
 
-#### 1️⃣ **Data Cleaning** (`data_cleaning.py`)
+#### 1. Data Cleaning (`data_cleaning.py`)
 
 Transforms raw data into analyzable data:
 
@@ -51,7 +51,7 @@ data/cleaned/
 └── walking_pocket_gyro_comparison.png
 ```
 
-#### 2️⃣ **Feature Engineering** (`feature_engineering.py`)
+#### **Feature Engineering** (`feature_engineering.py`)
 
 Extracts features from cleaned data:
 
@@ -73,7 +73,7 @@ data/features.csv
 - Distribution: 51 sitting_table, 32 stairs_pocket, 42 walking_pocket
 ```
 
-#### 3️⃣ **Machine Learning** (`model.py`)
+#### **Machine Learning** (`model.py`)
 
 Trains two classifiers for activity recognition:
 
@@ -99,7 +99,7 @@ results/
 └── confusion_matrix_knn.png
 ```
 
-### 🚀 How to Run the Project
+### How to Run the Project
 
 ```bash
 # 1. Data Cleaning
@@ -115,7 +115,7 @@ python3 model.py
 python3 visualize_magnitude.py
 ```
 
-### 📊 Visualization: Acceleration Magnitude (`visualize_magnitude.py`)
+### Visualization: Acceleration Magnitude (`visualize_magnitude.py`)
 
 Analyze and visualize the signal magnitude from accelerometer data:
 
@@ -151,7 +151,7 @@ results/magnitude_plots/
 └── walking_pocket_magnitude.png
 ```
 
-### 📈 Results
+### Results
 
 Both classifiers achieve **100% accuracy**:
 
@@ -167,7 +167,7 @@ Perfect classification on all three activities:
 
 The confusion matrix shows **zero classification errors**.
 
-### 📁 Project Structure
+### Project Structure
 
 ```
 IMU_Project/
@@ -189,7 +189,7 @@ IMU_Project/
     └── confusion_matrix_knn.png
 ```
 
-### 🛠️ Dependencies
+### Dependencies
 
 ```
 pandas
@@ -199,7 +199,7 @@ scikit-learn
 seaborn
 ```
 
-### 💡 Technical Notes
+### Technical Notes
 
 **Main Functions:**
 
@@ -212,7 +212,7 @@ seaborn
 - `plot_acceleration_magnitude()`: Plots acceleration magnitude from smoothed accelerometer data
 - `plot_all_activity_magnitudes()`: Batch plots magnitude for all activities
 
-### 🎓 Key Concepts Learned
+### Key Concepts Learned
 
 1. **Data Cleaning**: Handling raw data, outlier removal, signal smoothing
 2. **Time-Series Feature Engineering**: Sliding windows, feature extraction
