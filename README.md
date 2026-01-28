@@ -1,22 +1,22 @@
 # IMU Activity Recognition Project
 
-## Progetto: Introduction to Data Science and Software Engineering
+## Project: Introduction to Data Science and Software Engineering
 
-Un progetto completo di machine learning per il riconoscimento di attività umane usando dati di accelerometro e giroscopio raccolti da un cellulare.
+A complete machine learning project for activity recognition using accelerometer and gyroscope data collected from a mobile phone.
 
 ### 📊 Dataset
 
-Il dataset contiene dati sensoriali raccolti durante tre attività diverse:
+The dataset contains sensor data collected during three different activities:
 
-1. **sitting_table**: Cellulare fermo sul tavolo (activity statica)
-2. **stairs_pocket**: Salire e scendere le scale con andamento regolare
-3. **walking_pocket**: Camminata normale
+1. **sitting_table**: Phone stationary on a table (static activity)
+2. **stairs_pocket**: Ascending and descending stairs with regular motion
+3. **walking_pocket**: Normal walking
 
-**Sensori utilizzati:**
-- Accelerometro (x, y, z)
-- Giroscopio (x, y, z)
+**Sensors used:**
+- Accelerometer (x, y, z)
+- Gyroscope (x, y, z)
 
-**Formato dei dati grezzi:**
+**Raw data format:**
 ```
 time,seconds_elapsed,z,y,x
 1767620467350470700,0.143471,1.065960,0.185703,0.104458
@@ -26,16 +26,16 @@ time,seconds_elapsed,z,y,x
 
 #### 1️⃣ **Data Cleaning** (`data_cleaning.py`)
 
-Trasforma i dati grezzi in dati analizzabili:
+Transforms raw data into analyzable data:
 
-- **Caricamento**: Legge i file CSV di accelerometro e giroscopio
-- **Allineamento**: Unisce i segnali accelerometro e giroscopio per timestamp più vicino
-- **Rimozione outliers**: Utilizza il metodo IQR (Interquartile Range)
-  - Calcola Q1, Q3 e IQR
-  - Rimuove valori fuori dall'intervallo [Q1 - 1.5×IQR, Q3 + 1.5×IQR]
-- **Smoothing**: Applica un filtro rolling mean con finestra di 5 campioni
-- **Salvataggio**: Salva i dati puliti in `data/cleaned/<activity>.csv`
-- **Visualizzazione**: Crea grafici di confronto Raw vs Cleaned
+- **Loading**: Reads accelerometer and gyroscope CSV files
+- **Alignment**: Merges accelerometer and gyroscope signals by nearest timestamp
+- **Outlier Removal**: Uses the IQR (Interquartile Range) method
+  - Calculates Q1, Q3, and IQR
+  - Removes values outside the interval [Q1 - 1.5×IQR, Q3 + 1.5×IQR]
+- **Smoothing**: Applies a rolling mean filter with a 5-sample window
+- **Saving**: Saves cleaned data to `data/cleaned/<activity>.csv`
+- **Visualization**: Creates comparison plots of Raw vs Cleaned
 
 **Output:**
 ```
@@ -53,41 +53,41 @@ data/cleaned/
 
 #### 2️⃣ **Feature Engineering** (`feature_engineering.py`)
 
-Estrae caratteristiche dai dati puliti:
+Extracts features from cleaned data:
 
-- **Sliding Window**: Estrae finestre temporali di 2 secondi con step di 1 secondo
-- **Feature per finestra**:
-  - Mean, std, min, max per ogni asse (x, y, z)
+- **Sliding Window**: Extracts temporal windows of 2 seconds with 1-second step
+- **Features per window**:
+  - Mean, std, min, max for each axis (x, y, z)
   - Signal magnitude: √(x² + y² + z²)
-  - Caratteristiche sia da accelerometro che da giroscopio
-- **Total features**: 28 feature per campione
-- **Etichettamento**: Assegna l'etichetta di attività a ogni feature vector
-- **Shuffle**: Mescola il dataset
-- **Salvataggio**: Crea `data/features.csv` pronto per il ML
+  - Features from both accelerometer and gyroscope
+- **Total features**: 28 features per sample
+- **Labeling**: Assigns activity label to each feature vector
+- **Shuffle**: Shuffles the dataset
+- **Saving**: Creates `data/features.csv` ready for ML
 
 **Output:**
 ```
 data/features.csv
-- 125 campioni
-- 28 feature + colonna activity
-- Distribuiti: 51 sitting_table, 32 stairs_pocket, 42 walking_pocket
+- 125 samples
+- 28 features + activity column
+- Distribution: 51 sitting_table, 32 stairs_pocket, 42 walking_pocket
 ```
 
 #### 3️⃣ **Machine Learning** (`model.py`)
 
-Addestra due classificatori per il riconoscimento di attività:
+Trains two classifiers for activity recognition:
 
 **Pipeline:**
-1. Carica il dataset di feature
+1. Loads feature dataset
 2. Split 70% training, 30% test
-3. Standardizzazione delle feature (StandardScaler)
-4. Training e valutazione di due classificatori
+3. Feature standardization (StandardScaler)
+4. Training and evaluation of two classifiers
 
-**Classificatori:**
-- **Random Forest**: 100 estimatori
+**Classifiers:**
+- **Random Forest**: 100 estimators
 - **K-Nearest Neighbors**: k=5
 
-**Metriche di valutazione:**
+**Evaluation Metrics:**
 - Accuracy
 - Confusion Matrix
 - Classification Report (precision, recall, f1-score)
@@ -99,7 +99,7 @@ results/
 └── confusion_matrix_knn.png
 ```
 
-### 🚀 Come eseguire il progetto
+### 🚀 How to Run the Project
 
 ```bash
 # 1. Data Cleaning
@@ -110,32 +110,71 @@ python3 feature_engineering.py
 
 # 3. Machine Learning
 python3 model.py
+
+# 4. (Optional) Visualize Acceleration Magnitude
+python3 visualize_magnitude.py
 ```
 
-### 📈 Risultati
+### 📊 Visualization: Acceleration Magnitude (`visualize_magnitude.py`)
 
-Entrambi i classificatori raggiungono un'**accuratezza del 100%**:
+Analyze and visualize the signal magnitude from accelerometer data:
+
+- **Signal Magnitude**: Computed as √(accel_x² + accel_y² + accel_z²)
+- **Function**: `plot_acceleration_magnitude(df, activity_name, output_path, figsize)`
+  - Takes cleaned DataFrame with smoothed acceleration columns
+  - Plots magnitude with statistics (min, max, mean, std)
+  - Saves high-quality plots (100 DPI)
+- **Statistics**: Displays magnitude statistics directly on the plot
+- **Output**: PNG plots for each activity with visual signal characteristics
+
+**Example usage:**
+```python
+from visualize_magnitude import plot_acceleration_magnitude
+import pandas as pd
+
+# Load cleaned data
+df = pd.read_csv('data/cleaned/sitting_table.csv')
+
+# Create plot
+fig, ax, magnitude = plot_acceleration_magnitude(
+    df, 
+    'sitting_table',
+    output_path='results/sitting_magnitude.png'
+)
+```
+
+**Output files:**
+```
+results/magnitude_plots/
+├── sitting_table_magnitude.png
+├── stairs_pocket_magnitude.png
+└── walking_pocket_magnitude.png
+```
+
+### 📈 Results
+
+Both classifiers achieve **100% accuracy**:
 
 ```
 Random Forest Accuracy:      1.0000
 K-Nearest Neighbors Accuracy: 1.0000
 
-Classificazione perfetta su tutte e tre le attività:
+Perfect classification on all three activities:
 - sitting_table: precision=1.00, recall=1.00, f1=1.00
 - stairs_pocket: precision=1.00, recall=1.00, f1=1.00
 - walking_pocket: precision=1.00, recall=1.00, f1=1.00
 ```
 
-La matrice di confusione mostra **nessun errore di classificazione**.
+The confusion matrix shows **zero classification errors**.
 
-### 📁 Struttura del progetto
+### 📁 Project Structure
 
 ```
 IMU_Project/
-├── data_cleaning.py           # Step 1: Pulizia dati
-├── feature_engineering.py     # Step 2: Estrazione feature
-├── model.py                   # Step 3: Training ML
-├── README.md                  # Questa documentazione
+├── data_cleaning.py           # Step 1: Data cleaning
+├── feature_engineering.py     # Step 2: Feature extraction
+├── model.py                   # Step 3: ML training
+├── README.md                  # This documentation
 ├── data/
 │   ├── raw/
 │   │   ├── sitting_table/
@@ -144,13 +183,13 @@ IMU_Project/
 │   ├── cleaned/               # Output Step 1
 │   └── features.csv           # Output Step 2
 ├── notebook/
-│   └── exploration.ipynb      # Analisi esplorativa
+│   └── exploration.ipynb      # Exploratory analysis
 └── results/                   # Output Step 3
     ├── confusion_matrix_rf.png
     └── confusion_matrix_knn.png
 ```
 
-### 🛠️ Dipendenze
+### 🛠️ Dependencies
 
 ```
 pandas
@@ -160,27 +199,29 @@ scikit-learn
 seaborn
 ```
 
-### 💡 Note tecniche
+### 💡 Technical Notes
 
-**Funzioni principali:**
+**Main Functions:**
 
-- `remove_outliers_iqr()`: Rimuove outliers usando il metodo IQR
-- `load_and_clean_activity()`: Carica, allinea e pulisce i dati sensoriali
-- `plot_raw_vs_cleaned()`: Visualizza il confronto Raw vs Cleaned
-- `sliding_window()`: Estrae finestre temporali dai dati
-- `extract_features_from_window()`: Estrae feature da una singola finestra
-- `train_and_evaluate_classifier()`: Addestra e valuta i classificatori
+- `remove_outliers_iqr()`: Removes outliers using the IQR method
+- `load_and_clean_activity()`: Loads, aligns, and cleans sensor data
+- `plot_raw_vs_cleaned()`: Visualizes the Raw vs Cleaned comparison
+- `sliding_window()`: Extracts temporal windows from data
+- `extract_features_from_window()`: Extracts features from a single window
+- `train_and_evaluate_classifier()`: Trains and evaluates classifiers
+- `plot_acceleration_magnitude()`: Plots acceleration magnitude from smoothed accelerometer data
+- `plot_all_activity_magnitudes()`: Batch plots magnitude for all activities
 
-### 🎓 Concetti chiave appresi
+### 🎓 Key Concepts Learned
 
-1. **Data Cleaning**: Gestione di dati grezzi, outlier removal, signal smoothing
+1. **Data Cleaning**: Handling raw data, outlier removal, signal smoothing
 2. **Time-Series Feature Engineering**: Sliding windows, feature extraction
 3. **Machine Learning**: Classification, model evaluation, hyperparameter tuning
-4. **Model Comparison**: Valutazione e confronto di diversi algoritmi
-5. **Data Visualization**: Plots comparativi, confusion matrices
+4. **Model Comparison**: Evaluation and comparison of different algorithms
+5. **Data Visualization**: Comparative plots, confusion matrices
 
 ---
 
-**Autore**: Andrea Cazzato  
-**Data**: 28 Gennaio 2026  
-**Corso**: Introduction to Data Science and Software Engineering
+**Author**: Andrea Cazzato
+**Date**: January 28, 2026
+**Course**: Introduction to Data Science and Software Engineering
